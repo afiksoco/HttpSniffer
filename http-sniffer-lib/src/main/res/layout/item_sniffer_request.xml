@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="8dp"
-    android:orientation="vertical"
-    android:background="?attr/selectableItemBackground"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="4dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/urlText"
-        android:text="https://api.example.com"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/methodText"
-            android:text="GET"
-            android:textColor="@android:color/holo_blue_dark"
+            android:id="@+id/urlText"
             android:textSize="14sp"
-            android:layout_marginEnd="16dp"
+            android:textColor="#333333"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/methodText"
+            android:textSize="12sp"
+            android:textColor="#555555"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/statusText"
-            android:text="Status: 200"
-            android:textColor="@android:color/holo_green_dark"
-            android:textSize="14sp"
+            android:textSize="12sp"
+            android:textColor="#008000"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

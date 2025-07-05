@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/snifferRecyclerView"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/snifferToolbar"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        android:elevation="4dp"
+        android:titleTextColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/snifferRecyclerView"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

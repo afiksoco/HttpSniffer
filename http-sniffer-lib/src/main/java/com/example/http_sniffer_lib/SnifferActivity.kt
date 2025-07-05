@@ -11,11 +11,22 @@ class SnifferActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySnifferBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.snifferToolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = "HTTP Sniffer"
+        }
 
         binding.snifferRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.snifferRecyclerView.adapter = SnifferAdapter(SniffedRequestsRepository.getAllRequests())
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
+    }
+
 }

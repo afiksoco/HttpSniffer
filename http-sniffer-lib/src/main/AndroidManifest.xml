@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.http_sniffer_lib">
+
+    <application>
+        <activity android:name=".SnifferActivity"/>
+    </application>
+
+</manifest>

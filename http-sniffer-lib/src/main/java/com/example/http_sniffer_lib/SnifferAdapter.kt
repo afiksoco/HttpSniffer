@@ -9,26 +9,43 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.http_sniffer_lib.databinding.ItemSnifferRequestBinding
 import org.json.JSONArray
 import org.json.JSONObject
-
 class SnifferAdapter(
     private val requests: List<SniffedRequest>
-) : RecyclerView.Adapter<SnifferAdapter.SnifferViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SnifferViewHolder {
-        val binding = ItemSnifferRequestBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return SnifferViewHolder(binding)
+    private val VIEW_TYPE_EMPTY = 0
+    private val VIEW_TYPE_REQUEST = 1
+
+    override fun getItemViewType(position: Int): Int {
+        return if (requests.isEmpty()) VIEW_TYPE_EMPTY else VIEW_TYPE_REQUEST
     }
 
-    override fun onBindViewHolder(holder: SnifferViewHolder, position: Int) {
-        val request = requests[position]
-        holder.bind(request)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_EMPTY) {
+            val emptyView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_sniffer_empty, parent, false)
+            EmptyViewHolder(emptyView)
+        } else {
+            val binding = ItemSnifferRequestBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            SnifferViewHolder(binding)
+        }
     }
 
-    override fun getItemCount() = requests.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is SnifferViewHolder && requests.isNotEmpty()) {
+            holder.bind(requests[position])
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return if (requests.isEmpty()) 1 else requests.size
+    }
+
+    class EmptyViewHolder(view: android.view.View) : RecyclerView.ViewHolder(view)
 
     class SnifferViewHolder(private val binding: ItemSnifferRequestBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -36,16 +53,17 @@ class SnifferAdapter(
         fun bind(request: SniffedRequest) {
             binding.urlText.text = request.url
             binding.methodText.text = request.method
-            binding.statusText.text = "Status: ${request.responseCode}"
 
-            // הוסף listener לפתיחת dialog עם body
+            binding.statusText.text = "Status: ${request.responseCode}"
+            binding.statusText.setTextColor(getStatusColor(request.responseCode))
+
             binding.root.setOnClickListener {
                 val context = binding.root.context
-                val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_sniffer_response, null)
+                val dialogView = LayoutInflater.from(context)
+                    .inflate(R.layout.dialog_sniffer_response, null)
                 val prettyCheckBox = dialogView.findViewById<CheckBox>(R.id.prettyCheckBox)
                 val responseText = dialogView.findViewById<TextView>(R.id.responseText)
 
-                // הצג כברירת מחדל את הטקסט בפורמט יפה
                 responseText.text = formatJson(request.responseBody ?: "")
 
                 val dialog = AlertDialog.Builder(context)
@@ -64,18 +82,26 @@ class SnifferAdapter(
 
                 dialog.show()
             }
+        }
 
+        private fun getStatusColor(code: Int?): Int {
+            val context = binding.root.context
+            return when {
+                code == null -> context.getColor(android.R.color.darker_gray)
+                code in 200..299 -> context.getColor(android.R.color.holo_green_dark)
+                code in 300..399 -> context.getColor(android.R.color.holo_orange_dark)
+                code >= 400 -> context.getColor(android.R.color.holo_red_dark)
+                else -> context.getColor(android.R.color.darker_gray)
+            }
         }
 
         private fun formatJson(json: String): String {
             return try {
                 val trimmed = json.trim()
                 if (trimmed.startsWith("{")) {
-                    val jsonObject = JSONObject(trimmed)
-                    jsonObject.toString(4)
+                    JSONObject(trimmed).toString(4)
                 } else if (trimmed.startsWith("[")) {
-                    val jsonArray = JSONArray(trimmed)
-                    jsonArray.toString(4)
+                    JSONArray(trimmed).toString(4)
                 } else {
                     json
                 }
@@ -83,6 +109,5 @@ class SnifferAdapter(
                 json
             }
         }
-
     }
 }

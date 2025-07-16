@@ -34,19 +34,19 @@ dependencies {
 3️⃣ Sync Gradle ✅
 
 🚀 Quick Start
-1. Add the Interceptor to your OkHttpClient
+1️⃣ Add the Interceptor to your OkHttpClient
 kotlin
 Copy
 Edit
 val client = OkHttpClient.Builder()
     .addInterceptor(HttpSnifferInterceptor())
     .build()
-2. Open the Sniffer UI
+2️⃣ Open the Sniffer UI
 kotlin
 Copy
 Edit
 HttpSniffer.showSnifferUI(this)
-For example:
+Example usage:
 
 kotlin
 Copy
@@ -54,13 +54,16 @@ Edit
 findViewById<Button>(R.id.openSnifferButton).setOnClickListener {
     HttpSniffer.showSnifferUI(this)
 }
-3. (Optional) Listen for Real-Time Callbacks
+3️⃣ (Optional) Listen for Real-Time Callbacks
 kotlin
 Copy
 Edit
 HttpSniffer.registerCallback(object : SnifferCallback {
     override fun onRequestSniffed(request: SniffedRequest) {
-        Log.d("Sniffer", "New request: ${request.method} ${request.url} → ${request.responseCode}")
+        Log.d(
+            "Sniffer",
+            "New request: ${request.method} ${request.url} → ${request.responseCode}"
+        )
     }
 })
 And don’t forget to unregister in onDestroy:
@@ -71,22 +74,18 @@ Edit
 HttpSniffer.unregisterCallback()
 🖼️ Screenshots
 📌 Requests List with Status Code Colors
+Here the list of all HTTP requests with smart status coloring (green for 200, red for 400+).
 
-Here the list of all HTTP requests
 
-<img width="373" height="379" alt="image" src="https://github.com/user-attachments/assets/d29d02d5-6f67-440e-95aa-8b72db39d79b" />
 
 📌 Response Viewer (Raw)
-
 Displays the response body as raw text.
 
-<img width="325" height="441" alt="image" src="https://github.com/user-attachments/assets/5600723b-478b-4c85-a8e3-dd3aa2527c63" />
+
 
 📌 Response Viewer (Pretty JSON)
-
 Toggle Pretty JSON formatting for better readability.
 
-<img width="328" height="447" alt="image" src="https://github.com/user-attachments/assets/b4ee88fb-d763-46ba-aa0a-0baaa632ff30" />
 
 
 ✅ Demo API

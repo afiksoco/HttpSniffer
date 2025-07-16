@@ -74,7 +74,7 @@ HttpSniffer.unregisterCallback()
 
 Here the list of all HTTP requests
 
-<img width="359" height="287" alt="image" src="https://github.com/user-attachments/assets/1891ddf1-afe6-447b-802b-b1784462f2e2" />
+<img width="373" height="379" alt="image" src="https://github.com/user-attachments/assets/d29d02d5-6f67-440e-95aa-8b72db39d79b" />
 
 📌 Response Viewer (Raw)
 
